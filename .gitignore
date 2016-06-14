@@ -92,10 +92,7 @@ ENV/
 # jobdata settings
 htmlfiles/*
 jobdata/jobdata-development/*
-*.pyc
 *.sqlite3
 bcode-job-data-dev-f738db0417c9.json
-gcloud_storage.py
-jobdata/crawler/gcloud_storage.py
 *.DS_Store
 

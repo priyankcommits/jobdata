@@ -102,6 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STORAGE_DATA = os.getenv('STORAGE_DATA')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

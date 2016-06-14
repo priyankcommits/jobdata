@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from crawler.views import crawler_agent_post
+from crawler.views import crawler_agent_post, job_details
 
 urlpatterns = [
+    url(r'^$', job_details, name='job_details'),
     url(r'^crawler_agent_post/$', crawler_agent_post, name='crawler_agent_post'),
     url(r'^admin/', admin.site.urls),
 ]
