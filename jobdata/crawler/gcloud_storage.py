@@ -1,10 +1,10 @@
 # Wrapper aroung gcloud library
 
 import time
-
+import os
 from gcloud import storage
 
-keyfile_path = '/Users/priyankwork/Desktop/jobdata/bcode-job-data-dev-f738db0417c9.json'
+keyfile_path = os.getenv('GCLOUD_KEY_PATH')
 project = 'bcode-job-data-dev'
 bucket_name = 'job-data-development'
 
