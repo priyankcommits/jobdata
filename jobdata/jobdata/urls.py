@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from crawler.views import crawler_agent_post, job_details
+from crawler.views import crawler_agent_post, job_details_folders, job_details_dates, job_details_files, job_details_view_html
 
 urlpatterns = [
-    url(r'^$', job_details, name='job_details'),
+    url(r'^$', job_details_folders, name='job_details_folders'),
+    url(r'^dates/$', job_details_dates, name='job_details_dates'),
+    url(r'^files/$', job_details_files, name='job_details_files'),
+    url(r'^view/$', job_details_view_html, name='job_details_view_html'),
     url(r'^crawler_agent_post/$', crawler_agent_post, name='crawler_agent_post'),
     url(r'^admin/', admin.site.urls),
 ]

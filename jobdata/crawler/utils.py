@@ -29,7 +29,7 @@ def write_to_storage(crawler_id, tld, job_url, job_html_b64):
         except Exception as e:
             return {'status': e}
         else:
-            return {'status': 'Wrote to gcloud storage'}
+            return {'status': 'Wrote to gcloud storage', 'path': filepath}
     elif os.getenv('STORAGE_DATA') == 'local':
         path = "{0}/{1}/{2}".format(base_dir, agent_dir, date_dir)
         if not os.path.exists(path):

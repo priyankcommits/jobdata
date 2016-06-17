@@ -2,7 +2,7 @@ import urllib2
 import argparse
 
 from BeautifulSoup import BeautifulSoup
-from base_crawler import links_html
+from base_crawler import BaseCrawler
 
 parser = argparse.ArgumentParser(description='Arguments for indeed.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
@@ -25,7 +25,8 @@ class IndeedScript():
                 page = str(i.a.get('href'))
                 page_new = 'https://www.indeed.com{0}'.format(page)
                 if page_new and page_new != 'None':
-                    links_html(page_new, crawler_id, url, tld)
+                    base_crawler = BaseCrawler()
+                    base_crawler.links_html(page_new, crawler_id, url, tld)
 
 if __name__ == "__main__":
     script = IndeedScript()

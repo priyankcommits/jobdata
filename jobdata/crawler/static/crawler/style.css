@@ -1,0 +1,112 @@
+.bluebg{
+  height:100%;
+  width:100%;
+  background-color:#3385ff;
+}
+
+.graybg{
+  height:50px%;
+  width:100%;
+  background-color: #656667;
+}
+
+.redbg{
+  width:100%;
+  height:70px;
+  background-color: #B92B27;
+}
+.ashbg{
+  background-color:#F4F4FA;
+}
+.nopadding{
+  padding:0px;
+}
+.q{
+  font-size:45px;
+}
+h2,h3{
+  color: white;
+}
+a.red{
+  color: #FF3333;
+}
+a.red:hover{
+  color: #FF3333;
+}
+
+a.black{
+  color:black;
+}
+a.black:hover{
+  color:black;
+}
+a.custom{
+  color: #3385ff;
+}
+a.white{
+  color: white;
+}
+a.white:hover{
+  color: white;
+}
+a.custom:hover{
+  color:#3385ff;
+}
+.blacktext{
+  color: black;
+}
+.bluetext{
+  color: #3385ff;
+}
+.answertext{
+  color:#E8CC44;
+}
+.blacktext{
+  color: black;
+}
+.redtext{
+  color:#FF3333;
+}
+.italictext{
+  font-style:italic;
+}
+.btn-size{
+  width:20%;
+}
+
+.dropposition{
+  position:absolute;
+  top:20px;
+  right:20px;
+}
+hr.style1 {
+  width:50%;
+  opacity:0.3;
+	background-color: #FF3333;
+	border-top: 1px solid #FF3333;
+}
+hr.style2 {
+  width:90%;
+  opacity:0.4;
+	background-color: #FF3333;
+	border-top: 1px solid #FF3333;
+}
+.img-circle{
+  border-radius: 50%;
+  height:200px;
+  width:200px;
+}
+.topic{
+  color:black;
+  opacity: 0.8;
+  font-style:italic;
+}
+.comment{
+  color: green;
+}
+.commentsection{
+  background-color: #DFDFDF;
+}
+.answersection{
+  background-color:#E9E9E9;
+}
