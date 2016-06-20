@@ -20,7 +20,10 @@
     <span class="center-block text-center fa fa-file fa-3x bluetext"></span> </a><br/>
   <h4 class="text-center blacktext">
     <a href="{% url 'job_details_view_html' %}?file={{file.path_gcs}}" class="custom" target="_blank">
-      Click to view HTML page</a></h4>
+      {{file.job_title}}</a></h4>
+    <h6 class="text-left blacktext">{{file.job_parent_url}}</h6>
+    <h6 class="text-left blacktext">{{file.job_page_url}}</h6>
+    <h6 class="text-left blacktext">{{file.path_gcs}}</h6>
   </div>
   {% endfor %}
     </div>

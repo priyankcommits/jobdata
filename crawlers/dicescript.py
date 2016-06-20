@@ -21,12 +21,13 @@ class DiceScript():
             text = urllib2.urlopen(url).read()
             soup = BeautifulSoup(text)
             data = soup.findAll('div', attrs={'class': 'serp-result-content'})
+            title = soup.findAll('title')
             for i in data:
                 page = str(i.h3.a.get('href'))
                 page_new = page.replace('https:', 'http:')
                 if page_new and page_new != 'None':
                     base_crawler = BaseCrawler()
-                    base_crawler.links_html(page_new, crawler_id, url, tld)
+                    base_crawler.links_html(title, page_new, crawler_id, url, tld)
 
 if __name__ == "__main__":
     script = DiceScript()

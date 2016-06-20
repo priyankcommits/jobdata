@@ -16,7 +16,9 @@ def crawler_agent_post(request):
     if request.method == 'POST':
         crawler_id = request.POST.get("crawler_id", 1)
         tld = request.POST.get("tld", "dice.com")
-        job_url = request.POST.get("job_url", "")
+        job_parent_url = request.POST.get("job_parent_url", "")
+        job_page_url = request.POST.get("job_page_url", "")
+        job_title = request.POST.get("job_title", "")
         job_html_b64 = request.POST.get("job_html_b64", "")
         try:
             crawler_agent = CrawlerAgent.objects.get(id=crawler_id, tld=tld)
@@ -26,14 +28,18 @@ def crawler_agent_post(request):
             params = {
                     'crawler_id': crawler_id,
                     'tld': tld,
-                    'job_url': job_url,
+                    'job_parent_url': job_parent_url,
+                    'job_page_url': job_page_url,
+                    'job_title': job_title,
                     'job_html_b64': job_html_b64,
                     }
             status = write_to_storage(**params)
             if status['status'] == 'Wrote to gcloud storage':
                 job = JobInfo.objects.create(
                     crawler_agent_id=int(crawler_id),
-                    job_url=str(job_url),
+                    job_parent_url=str(job_parent_url),
+                    job_page_url=str(job_page_url),
+                    job_title=str(job_title),
                     path_gcs=str(status['path'])
                     )
             return HttpResponse(status['status'])
@@ -57,11 +63,8 @@ def job_details_dates(request):
         try:
             for date in dates:
                 date_folders = date.created_at.date()
-                date_folders_list.append(date_folders)
-            date_folders_list_str = []
-            for date in date_folders_list:
-                date_folders_list_str.append(str(date))
-            date_set = Set(date_folders_list_str)
+                date_folders_list.append(str(date_folders))
+            date_set = Set(date_folders_list)
             return render(request, 'crawler/dates.html', {'dates': date_set, 'crawler_id': crawler_id})
         except Exception as e:
             return HttpResponse(e)

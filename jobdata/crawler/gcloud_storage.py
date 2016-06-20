@@ -5,8 +5,8 @@ import os
 from gcloud import storage
 
 keyfile_path = os.getenv('GCLOUD_KEY_PATH')
-project = 'bcode-job-data-dev'
-bucket_name = 'job-data-development'
+project = str(os.getenv('PROJECT'))
+bucket_name = str(os.getenv('BUCKET_NAME'))
 
 # client = storage.Client.from_service_account_json(keyfile_path,
         # project=project)
@@ -14,6 +14,7 @@ bucket_name = 'job-data-development'
 # blob = bucket.blob('content.json')
 # content = {}
 # blob.upload_from_string(content)
+
 
 class GcloudStorage(object):
 
