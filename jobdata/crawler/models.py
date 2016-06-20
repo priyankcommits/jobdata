@@ -16,7 +16,6 @@ class CrawlerAgent(models.Model):
 
 class JobInfo(models.Model):
     crawler_agent = models.ForeignKey(CrawlerAgent)
-    job_parent_url = models.CharField(max_length=500)
     job_page_url = models.CharField(max_length=500)
     job_title = models.CharField(max_length=200)
     path_gcs = models.CharField(max_length=200)

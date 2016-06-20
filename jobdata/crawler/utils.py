@@ -7,7 +7,7 @@ from datetime import datetime
 from gcloud_storage import GcloudStorage
 
 
-def write_to_storage(crawler_id, tld, job_parent_url, job_page_url, job_title, job_html_b64):
+def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
     base_dir = 'job-data-development'
     agent_dir = 'agent_id_' + str(crawler_id)
     date_dir = datetime.utcnow().strftime("%Y%m%d")
@@ -15,7 +15,6 @@ def write_to_storage(crawler_id, tld, job_parent_url, job_page_url, job_title, j
             'crawler_agent_id': crawler_id,
             'tld': tld,
             'guid': str(uuid.uuid4()),
-            'job_parent_url': job_parent_url,
             'job_page_url': job_page_url,
             'job_title': job_title,
             'job_html_b64': job_html_b64,
