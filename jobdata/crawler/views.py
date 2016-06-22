@@ -76,22 +76,15 @@ def job_details_dates(request, crawler):
     if request.method == 'GET':
         crawler_id = crawler
         jobs = JobInfo.objects.filter(crawler_agent_id=int(crawler_id)).order_by('-created_at')
-        date_folders_list = []
-        try:
-            for job in jobs:
-                date_folders = job.created_at.date()
-                date_folders_list.append(str(date_folders))
-            date_set = Set(date_folders_list)
-            date_list = list(date_set)
-            date_list.sort()
-            job_count_list = []
-            for date in date_list:
-                job_count = JobInfo.objects.filter(crawler_agent_id=int(crawler_id), created_at__startswith=str(date)).count()
-                job_count_list.append(job_count)
-            job_counts = OrderedDict(zip(date_list, job_count_list))
-            return render(request, 'crawler/dates.html', {'dates': date_list, 'counts': job_counts, 'crawler_id': crawler_id})
-        except Exception as e:
-            return HttpResponse(e)
+        dates_dict = {}
+        for job in jobs:
+            if str(job.created_at.date()) in dates_dict:
+                dates_dict[str(job.created_at.date())] = int(dates_dict[str(job.created_at.date())]) + 1
+            else:
+                dates_dict[str(job.created_at.date())] = 1
+            ordered_dates_dict = OrderedDict(sorted(dates_dict.items()))
+
+    return render(request, 'crawler/dates.html', {'counts': ordered_dates_dict, 'crawler_id': crawler_id})
 
 
 def job_details_files(request, crawler, date):
@@ -100,22 +93,27 @@ def job_details_files(request, crawler, date):
         date = date
         date_field = datetime.strptime(str(date), '%Y-%m-%d')
         files = JobInfo.objects.filter(crawler_agent_id=int(crawler_id), created_at__startswith=str(date_field.date())).order_by('-created_at')
+
         return render(request, 'crawler/files.html', {'files': files, 'date': date, 'crawler_id_date': crawler_id})
 
 
-def job_details_view_json(request, file):
+def job_details_view_json(request, crawler, date, file):
     if request.method == 'GET':
+        crawler_id_date_file = crawler
+        date = date
         file = file
         gcs = GcloudStorage()
         bucket = gcs.get_bucket('job-data-development')
         blob = bucket.get_blob(str(file))
         blob_string = blob.download_as_string()
 
-        return HttpResponse(blob_string)
+        return render(request, 'crawler/view_json.html', {'title': file, 'blob_string': blob_string, 'date': date, 'crawler_id_date_file': crawler_id_date_file})
 
 
-def job_details_view_html(request, file):
+def job_details_view_html(request, crawler, date, file):
     if request.method == 'GET':
+        crawler_id_date_file = crawler
+        date = date
         file = file
         gcs = GcloudStorage()
         bucket = gcs.get_bucket('job-data-development')
@@ -124,5 +122,6 @@ def job_details_view_html(request, file):
         blob_json = json.loads(str(blob_string))
         html_b64 = str(blob_json['job_html_b64'])
         html = base64.b64decode(html_b64)
+        title = str(blob_json['job_title'])
 
-        return HttpResponse(html)
+        return render(request, 'crawler/view_html.html', {'html': html, 'title': title, 'date': date, 'crawler_id_date_file': crawler_id_date_file})

@@ -53,7 +53,7 @@ var myBarChart = new Chart(ctx, {
 <div class="col-lg-12 nopadding" style="margin-bottom:20px;">
   <canvas id="myChart" class="chardiv"></canvas>
 </div>
-{% for date in dates %}
+{% for date in counts %}
 <div class="col-lg-3 center-block text-center">
   <a href="{% url 'crawler:job_details_files' crawler=crawler_id date=date %}" class="custom">
     <span class="center-block text-center fa fa-folder fa-3x bluetext"></span> </a><br/>

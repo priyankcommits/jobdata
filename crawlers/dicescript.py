@@ -12,7 +12,7 @@ locations = ['San_Francisco%2C_CA', 'New_York%2C_NY', 'San_Diego%2C_CA', 'Austin
 tld = 'dice.com'
 
 
-class DiceScript():
+class DiceScript(BaseCrawler):
 
     def main(self):
         for location in locations:
@@ -32,9 +32,9 @@ class DiceScript():
                                 page_new_request = requests.get(page_new)
                                 soup_page_new = BeautifulSoup(page_new_request.text)
                                 title = soup_page_new.findAll('title')
-                                base_crawler = BaseCrawler()
-                                html_text = base_crawler.page_get_html(title, page_new, crawler_id, tld)
-                                result = base_crawler.post_to_jobdata(title, page_new, html_text, crawler_id, tld)
+                                # base_crawler = BaseCrawler()
+                                html_text = self.page_get_html(title, page_new, crawler_id, tld)
+                                result = self.post_to_jobdata(title, page_new, html_text, crawler_id, tld)
                                 print page_new
                                 print result
                             else:

@@ -12,7 +12,7 @@ locations = ['San+Francisco%2C+CA', 'New+York%2C+NY','San+Diego%2C+CA', 'Austin%
 tld = 'indeed.com'
 
 
-class IndeedScript():
+class IndeedScript(BaseCrawler):
 
     def main(self):
         for location in locations:
@@ -29,14 +29,17 @@ class IndeedScript():
                             r = requests.post("http://localhost:8001/crawler_agent_check/",
                                     data={'crawler_id': crawler_id, 'job_page_url': page_new})
                             if str(r.text.encode('utf-8')) == "True":
-                                page_new_request = requests.get(page_new)
-                                soup_page_new = BeautifulSoup(page_new_request.text)
-                                title = soup_page_new.findAll('title')
-                                base_crawler = BaseCrawler()
-                                html_text = base_crawler.page_get_html(title, page_new, crawler_id, tld)
-                                result = base_crawler.post_to_jobdata(title, page_new, html_text, crawler_id, tld)
-                                print page_new
-                                print result
+                                try:
+                                    page_new_request = requests.get(page_new)
+                                    soup_page_new = BeautifulSoup(page_new_request.text)
+                                    title = soup_page_new.findAll('title')
+                                    html_text = self.page_get_html(title, page_new, crawler_id, tld)
+                                    result = self.post_to_jobdata(title, page_new, html_text, crawler_id, tld)
+                                    print page_new
+                                    print result
+                                except Exception as e:
+                                    print "Error", e
+                                    pass
                             else:
                                 print page_new
                                 print "Page previously crawled"

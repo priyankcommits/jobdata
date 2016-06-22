@@ -17,15 +17,20 @@
       <div class="bluebg col-lg-12 nopadding" style="margin-bottom:20px;">
       <h3 class="text-center whitetext">Job Details</h3>
       </div>
-      <div class="col-lg-12 nopadding center-block text-center" style="margin-bottom:20px;">
+      <div class="col-lg-12 nopadding center-block text-left" style="margin-bottom:20px;">
 <ol class="breadcrumb" style="margin-bottom: 5px;">
   <li><a href="{% url 'crawler:job_details_agents' %}">Home</a></li>
   {% if crawler_id %}
   <li class="active">{{crawler_id}}</li>
   {% endif %}
-  {% if date %}
+  {% if crawler_id_date %}
   <li><a href="{% url 'crawler:job_details_dates' crawler=crawler_id_date %}">{{crawler_id_date}}</a></li>
   <li class="active">{{date}}</li>
+  {% endif %}
+  {% if crawler_id_date_file %}
+  <li><a href="{% url 'crawler:job_details_dates' crawler=crawler_id_date_file %}">{{crawler_id_date_file}}</a></li>
+  <li><a href="{% url 'crawler:job_details_files' crawler=crawler_id_date_file date=date %}">{{date}}</a></li>
+  <li class="active">{{title}}</li>
   {% endif %}
 </ol>
       </div>

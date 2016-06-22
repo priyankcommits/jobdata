@@ -20,8 +20,8 @@ urlpatterns = [
     url(r'^$', job_details_agents, name='job_details_agents'),
     url(r'^(?P<crawler>[0-9]+)/dates/$', job_details_dates, name='job_details_dates'),
     url(r'^(?P<crawler>[0-9]+)/date/(?P<date>[-\w]+)/files/$', job_details_files, name='job_details_files'),
-    url(r'^(?P<file>.*)/view_html/$', job_details_view_html, name='job_details_view_html'),
-    url(r'^(?P<file>.*)/view_json/$', job_details_view_json, name='job_details_view_json'),
+    url(r'^(?P<crawler>[0-9]+)/date/(?P<date>[-\w]+)/(?P<file>.*)/view_html/$', job_details_view_html, name='job_details_view_html'),
+    url(r'^(?P<crawler>[0-9]+)/date/(?P<date>[-\w]+)/(?P<file>.*)/view_json/$', job_details_view_json, name='job_details_view_json'),
     url(r'^crawler_agent_post/$', crawler_agent_post, name='crawler_agent_post'),
     url(r'^crawler_agent_check/$', crawler_agent_check, name='crawler_agent_check'),
 ]
