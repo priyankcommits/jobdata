@@ -123,3 +123,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Celery Env
+# BROKER_URL = os.getenv('CELERY_BROKER', 'redis://localhost:6379')
+BROKER_URL = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TASK_SCHEDULER = 'json'
+
+# clerybeat schedule
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+        'add-every-2-seconds': {
+            'task': 'crawler.tasks.add',
+            'schedule': timedelta(seconds=2),
+            'args': (16,16)
+            }
+        }

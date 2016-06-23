@@ -95,4 +95,4 @@ jobdata/jobdata-development/*
 *.sqlite3
 bcode-job-data-dev-f738db0417c9.json
 *.DS_Store
-
+dump.rdb
