@@ -1,0 +1,12 @@
+{% extends 'jobdetails/base.html' %}
+{% block content %}
+<script>
+
+</script>
+<div class="col-lg-12 nopadding" style="margin-left:10px;margin-right:30px;">
+  <p class="wordwrap"><span class="redtext q">Title:</span> {{job_data.title}}</p>
+   <p class="wordwrap"><span class="redtext q">Location:</span> {{job_data.location}}</p>
+    <p class="wordwrap"><span class="redtext q">Nature:</span> {{job_data.nature}}</p>
+     <p class="wordwrap"><span class="redtext q">Desc:</span> {{job_data.desc}}</p>
+</div>
+  {% endblock content %}

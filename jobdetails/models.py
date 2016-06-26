@@ -23,3 +23,14 @@ class JobInfo(models.Model):
 
     def __str__(self):
         return u"%s" % self.crawler_agent_id
+
+
+class JobData(models.Model):
+    job = models.ForeignKey(JobInfo)
+    title = models.CharField(max_length=200)
+    location = models.CharField(max_length=100)
+    nature = models.CharField(max_length=100)
+    desc = models.CharField(max_length=20000)
+
+    def __str__(self):
+        return u"%s" % self.title

@@ -1,4 +1,4 @@
-{% extends 'crawler/base.html' %}
+{% extends 'jobdetails/base.html' %}
 {% block content %}
 <script>
 window.onload = function() {
@@ -50,8 +50,8 @@ var myBarChart = new Chart(ctx, {
 </div>
       {% for crawler in crawlers %}
 <div class="col-lg-3 center-block text-center">
-  <a href="{% url 'crawler:job_details_dates' crawler=crawler.id %}" class="custom"> <span class="center-block text-center fa fa-folder fa-3x bluetext"></span></a><br/>
-  <h4 class="text-center blacktext"><a href="{% url 'crawler:job_details_dates' crawler=crawler.id %}" class="custom">{{crawler.tld}}</a></h4>
+  <a href="{% url 'jobdetails:job_details_dates' crawler=crawler.id %}" class="custom"> <span class="center-block text-center fa fa-folder fa-3x bluetext"></span></a><br/>
+  <h4 class="text-center blacktext"><a href="{% url 'jobdetails:job_details_dates' crawler=crawler.id %}" class="custom">{{crawler.tld}}</a></h4>
   </div>
   {% endfor %}
 

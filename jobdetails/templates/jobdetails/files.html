@@ -1,23 +1,25 @@
-{% extends 'crawler/base.html' %}
+{% extends 'jobdetails/base.html' %}
 {% block content %}
 {% for file in files %}
 <div class="boxlg col-lg-4 center-block text-center">
   <div style="display:inline-block;float:left;">
-  <a style="float:left;" href="{% url 'crawler:job_details_view_html' file=file.path_gcs crawler=crawler_id_date date=date %}" class="custom">
+  <a style="float:left;" href="{% url 'jobdetails:job_details_view_html' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="custom">
     <span class="center-block text-center fa fa-file fa-2x bluetext"></span> </a>
   </div>
   <div style="display:inline-block;">
   <h5 class="text-left blacktext" style="display:inline-block;">
-    <a href="{% url 'crawler:job_details_view_html' file=file.path_gcs crawler=crawler_id_date date=date %}" class="custom">
+    <a href="{% url 'jobdetails:job_details_view_html' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="custom">
       {{file.job_title}}</a></h5>
   <h6 class="text-left blacktext"><b><span class="redtext">Create On:</span> </b> {{file.created_at}} </h6>
- 
   <h6 class="text-left blacktext"><b><span class="redtext">Page URL:</span></b>
     <a href="{{file.job_page_url}}" target="_blank" class="black">
     {{file.job_page_url}} </a></h6>
   <h6 class="text-left blacktext"><b><span class="redtext">GCS Path:</span></b>
-    <a href="{% url 'crawler:job_details_view_json' file=file.path_gcs crawler=crawler_id_date date=date %}" class="black">
+    <a href="{% url 'jobdetails:job_details_view_json' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="black">
       {{file.path_gcs}}</a></h6>
+  <h6 class="text-left blacktext"><b><span class="redtext">Extracted Data:</span></b>
+    <a href="{% url 'jobdetails:job_details_view_data' job=file.id crawler=crawler_id_date.id date=date %}" class="black">
+    View Data</a></h6>
   </div>
   </div>
   {% endfor %}

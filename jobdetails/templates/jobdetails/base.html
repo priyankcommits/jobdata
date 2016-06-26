@@ -2,12 +2,12 @@
 <html>
 <head>
   <title>Jobdata Details</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'crawler/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'crawler/style.css' %}" type="text/css">
+  <link rel="stylesheet" type="text/css" href="{% static 'jobdetails/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'jobdetails/style.css' %}" type="text/css">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-  <script src="{% static 'crawler/jquery.min.js' %}"></script>
-  <script src="{% static 'crawler/bootstrap.min.js' %}"></script>
-  <script src="{% static 'crawler/Chart.js'%}"></script>
+  <script src="{% static 'jobdetails/jquery.min.js' %}"></script>
+  <script src="{% static 'jobdetails/bootstrap.min.js' %}"></script>
+  <script src="{% static 'jobdetails/Chart.js'%}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -19,17 +19,17 @@
       </div>
       <div class="col-lg-12 nopadding center-block text-left" style="margin-bottom:20px;">
 <ol class="breadcrumb" style="margin-bottom: 5px;">
-  <li><a href="{% url 'crawler:job_details_agents' %}">Home</a></li>
+  <li><a href="{% url 'jobdetails:job_details_agents' %}">Home</a></li>
   {% if crawler_id %}
-  <li class="active">{{crawler_id}}</li>
+  <li class="active">{{crawler_id.tld}}</li>
   {% endif %}
   {% if crawler_id_date %}
-  <li><a href="{% url 'crawler:job_details_dates' crawler=crawler_id_date %}">{{crawler_id_date}}</a></li>
+  <li><a href="{% url 'jobdetails:job_details_dates' crawler=crawler_id_date.id %}">{{crawler_id_date.tld}}</a></li>
   <li class="active">{{date}}</li>
   {% endif %}
   {% if crawler_id_date_file %}
-  <li><a href="{% url 'crawler:job_details_dates' crawler=crawler_id_date_file %}">{{crawler_id_date_file}}</a></li>
-  <li><a href="{% url 'crawler:job_details_files' crawler=crawler_id_date_file date=date %}">{{date}}</a></li>
+  <li><a href="{% url 'jobdetails:job_details_dates' crawler=crawler_id_date_file.id %}">{{crawler_id_date_file.tld}}</a></li>
+  <li><a href="{% url 'jobdetails:job_details_files' crawler=crawler_id_date_file.id date=date %}">{{date}}</a></li>
   <li class="active">{{title}}</li>
   {% endif %}
 </ol>

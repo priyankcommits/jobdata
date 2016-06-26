@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('crawler.urls', namespace='crawler')),
+    url('', include('jobdetails.urls', namespace='jobdetails')),
+    url('', include('crawler_api.urls', namespace='crawler_api')),
 ]
