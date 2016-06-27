@@ -32,11 +32,9 @@ class DiceScript(BaseCrawler):
                                     r = requests.post("http://localhost:8001/crawler_agent_check/",
                                             data={'crawler_id': crawler_id, 'job_page_url': page_new})
                                     if str(r.text.encode('utf-8')) == "True":
-                                        page_new_request = requests.get(page_new)
-                                        soup_page_new = BeautifulSoup(page_new_request.text)
-                                        title = soup_page_new.findAll('title')
-                                        html = self.page_get_html(title, page_new, crawler_id, tld)
-                                        html_text = html.text.encode('utf-8')
+                                        html = self.page_get_html(page_new)
+                                        title = html['title']
+                                        html_text = html['r'].text.encode('utf-8')
                                         result = self.post_to_jobdata(title, page_new, html_text, crawler_id, tld)
                                         result_json = json.loads(result[2])
                                         job = int(result_json['job'])
@@ -44,8 +42,8 @@ class DiceScript(BaseCrawler):
                                         location_xpath = '//*[@id="header-wrap"]/div[2]/div/div[1]/ul/li[2]'
                                         nature_xpath = '//*[@id="bd"]/div[2]/div[1]/div[2]/div/div[2]/span'
                                         desc_xpath = '//*[@id="jobdescSec"]'
-                                        extracted = self.post_to_data_extract(title_xpath, location_xpath, nature_xpath, desc_xpath, page_new, job)
-                                        print "Page Crawled" + html.url
+                                        extracted = self.post_to_data_extract(title_xpath, location_xpath, nature_xpath, desc_xpath, html_text, job)
+                                        print "Page Crawled" + html['r'].url.encode('utf-8')
                                         print "Page First Hit:" + page_new
                                         print result
                                         print "Data Status:" + extracted

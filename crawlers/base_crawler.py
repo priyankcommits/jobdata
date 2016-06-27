@@ -1,6 +1,7 @@
 import base64
 from time import sleep
 import requests
+from BeautifulSoup import BeautifulSoup
 
 
 class BaseCrawler(object):
@@ -29,13 +30,16 @@ class BaseCrawler(object):
         else:
             return "Html has nothing"
 
-    def page_get_html(self, title, page_new, crawler_id, tld):
+    def page_get_html(self, page_new):
         try:
             r = requests.get(page_new)
             if r.status_code == 200:
+                page_new_request = requests.get(page_new)
+                soup_page_new = BeautifulSoup(page_new_request.text)
+                title = soup_page_new.findAll('title')
                 # html_text = str(r.text.encode('utf-8'))
                 sleep(10)
-                return r
+                return {'r': r, 'title': title}
         except Exception as e:
             print 'error', e
             pass

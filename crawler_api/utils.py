@@ -10,7 +10,7 @@ from datetime import datetime
 from django.utils.html import strip_tags
 
 from gcloud_storage import GcloudStorage
-
+from io import StringIO
 
 def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
     base_dir = 'job-data-development'
@@ -53,11 +53,12 @@ def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
         return {'status': 'Could not find environment'}
 
 
-def strip_data(xpath_list, page):
+def strip_data(xpath_list, html):
     data_list = []
-    response = urllib2.urlopen(str(page))
+    #response = urllib2.urlopen(str(page))
     htmlparser = etree.HTMLParser()
-    tree = etree.parse(response, htmlparser)
+    tree = etree.parse(StringIO(html), htmlparser)
+    #tree = etree.parse(html, htmlparser)
     try:
         for xpath in xpath_list:
             xpath = xpath.encode('utf-8')
