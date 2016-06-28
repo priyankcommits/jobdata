@@ -38,16 +38,21 @@ class BaseCrawler(object):
                 soup_page_new = BeautifulSoup(page_new_request.text)
                 title = soup_page_new.findAll('title')
                 # html_text = str(r.text.encode('utf-8'))
-                sleep(10)
+                # sleep(10)
                 return {'r': r, 'title': title}
         except Exception as e:
             print 'error', e
-            pass
-        else:
-            pass
+            return 0
+
+    def get_title(self,html):
+        import ipdb;ipdb.set_trace();
+        soup = BeautifulSoup(html)
+        title = soup.findAll('title')
+
+        return {'title': title}
 
     def tld_check(self, page, tld):
-        if tld in page[:20]:
+        if tld in page[:30]:
             return "True"
         else:
             return "False"

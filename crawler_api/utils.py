@@ -54,14 +54,41 @@ def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
 
 
 def strip_data(xpath_list, html):
+    import ipdb;ipdb.set_trace();
     data_list = []
-    #response = urllib2.urlopen(str(page))
-    htmlparser = etree.HTMLParser()
-    tree = etree.parse(StringIO(html), htmlparser)
-    #tree = etree.parse(html, htmlparser)
+    file = open("something.html", "w+")
+    file.write(str(html.encode('utf-8')))
+    file.close()
     try:
         for xpath in xpath_list:
             xpath = xpath.encode('utf-8')
+            tree = etree.HTML(html)
+            result = tree.xpath(xpath + '//text()')
+            if result:
+                stripped_text = strip_tags(str(result[0]))
+                stripped_text = stripped_text.replace('\n', '')
+                stripped_text = stripped_text.replace('\t', '')
+            else:
+                stripped_text = ''
+            data_list.append(stripped_text)
+
+        return data_list
+    except Exception as e:
+        print e
+        return 0
+
+def strip_data_old(xpath_list, html):
+    import ipdb;ipdb.set_trace();
+    data_list = []
+    file = open("something.html", "w+")
+    file.write(str(html.encode('utf-8')))
+    file.close()
+    xpath_temp = [xpath_list[0], xpath_list[3]]
+    try:
+        for xpath in xpath_temp:
+            xpath = xpath.encode('utf-8')
+            htmlparser = etree.HTMLParser()
+            tree = etree.parse(StringIO(html), htmlparser)
             result = tree.xpath(xpath)
             stripped_text = strip_tags(etree.tostring(result[0]))
             stripped_text = stripped_text.replace('\n', '')
@@ -69,5 +96,6 @@ def strip_data(xpath_list, html):
             data_list.append(stripped_text)
 
         return data_list
-    except:
+    except Exception as e:
+        print e
         return 0
