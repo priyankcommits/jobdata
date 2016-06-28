@@ -17,7 +17,6 @@ tld = 'angellist.co'
 class AngelListScript(BaseCrawler):
 
     def main(self):
-        import ipdb;ipdb.set_trace();
         br = mechanize.Browser()
         # Enable cookie support for urllib2
         cookiejar = cookielib.LWPCookieJar()
