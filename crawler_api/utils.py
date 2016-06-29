@@ -2,15 +2,17 @@ import os
 import uuid
 import json
 import time
-import HTMLParser
-import urllib2
+import requests
+import base64
 from lxml import etree
+from io import StringIO
 from datetime import datetime
 
 from django.utils.html import strip_tags
 
+from BeautifulSoup import BeautifulSoup
 from gcloud_storage import GcloudStorage
-from io import StringIO
+
 
 def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
     base_dir = 'job-data-development'
@@ -54,48 +56,49 @@ def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
 
 
 def strip_data(xpath_list, html):
-    import ipdb;ipdb.set_trace();
     data_list = []
-    file = open("something.html", "w+")
-    file.write(str(html.encode('utf-8')))
-    file.close()
     try:
         for xpath in xpath_list:
             xpath = xpath.encode('utf-8')
             tree = etree.HTML(html)
-            result = tree.xpath(xpath + '//text()')
+            result = tree.xpath(xpath)
             if result:
-                stripped_text = strip_tags(str(result[0]))
+                stripped_text = strip_tags(etree.tostring(result[0]))
                 stripped_text = stripped_text.replace('\n', '')
                 stripped_text = stripped_text.replace('\t', '')
             else:
-                stripped_text = ''
+                if xpath_list[0] or xpath[3]:
+                    return 0
+                else:
+                    stripped_text = ''
             data_list.append(stripped_text)
 
         return data_list
-    except Exception as e:
-        print e
+    except:
         return 0
 
-def strip_data_old(xpath_list, html):
-    import ipdb;ipdb.set_trace();
-    data_list = []
-    file = open("something.html", "w+")
-    file.write(str(html.encode('utf-8')))
-    file.close()
-    xpath_temp = [xpath_list[0], xpath_list[3]]
+
+def page_get_html(page):
     try:
-        for xpath in xpath_temp:
-            xpath = xpath.encode('utf-8')
-            htmlparser = etree.HTMLParser()
-            tree = etree.parse(StringIO(html), htmlparser)
-            result = tree.xpath(xpath)
-            stripped_text = strip_tags(etree.tostring(result[0]))
-            stripped_text = stripped_text.replace('\n', '')
-            stripped_text = stripped_text.replace('\t', '')
-            data_list.append(stripped_text)
+        response = requests.get(page)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text)
+            title = soup.find('title').getText()
 
-        return data_list
+            return {'text': response.text, 'title': title}
     except Exception as e:
-        print e
+        print 'error', e
         return 0
+
+
+def tld_check(tld, page):
+    if tld in page[:30]:
+        return "True"
+    else:
+        return "False"
+
+
+def convert_to_b64(html):
+    html_text = html.encode('utf-8')
+
+    return base64.b64encode(str(html_text))
