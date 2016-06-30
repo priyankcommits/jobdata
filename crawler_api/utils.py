@@ -5,7 +5,6 @@ import time
 import requests
 import base64
 from lxml import etree
-from io import StringIO
 from datetime import datetime
 
 from django.utils.html import strip_tags
@@ -56,22 +55,36 @@ def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
 
 
 def strip_data(xpath_list, html):
+    import ipdb;ipdb.set_trace();
     data_list = []
     try:
         for xpath in xpath_list:
             xpath = xpath.encode('utf-8')
             tree = etree.HTML(html)
             result = tree.xpath(xpath)
-            if result:
-                stripped_text = strip_tags(etree.tostring(result[0]))
-                stripped_text = stripped_text.replace('\n', '')
-                stripped_text = stripped_text.replace('\t', '')
-            else:
-                if xpath_list[0] or xpath[3]:
-                    return 0
+            if 'text()' in xpath:
+                if result:
+                    stripped_text = strip_tags(result)
+                    stripped_text = stripped_text.replace('\n', '')
+                    stripped_text = stripped_text.replace('\t', '')
                 else:
-                    stripped_text = ''
-            data_list.append(stripped_text)
+                    if xpath_list[0] or xpath[3]:
+                        return 0
+                    else:
+                        stripped_text = ''
+                data_list.append(stripped_text)
+            else:
+                if result:
+                    stripped_text = strip_tags(etree.tostring(result[0]))
+                    stripped_text = stripped_text.replace('\n', '')
+                    stripped_text = stripped_text.replace('\t', '')
+                else:
+                    if xpath_list[0] or xpath[3]:
+                        return 0
+                    else:
+                        stripped_text = ''
+                data_list.append(stripped_text)
+
 
         return data_list
     except:
@@ -85,14 +98,13 @@ def page_get_html(page):
             soup = BeautifulSoup(response.text)
             title = soup.find('title').getText()
 
-            return {'text': response.text, 'title': title}
-    except Exception as e:
-        print 'error', e
+        return {'text': response.text, 'title': title}
+    except:
         return 0
 
 
 def tld_check(tld, page):
-    if tld in page[:30]:
+    if tld in page:
         return "True"
     else:
         return "False"
