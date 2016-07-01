@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser(description='Arguments for agenlistscript.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
 args = parser.parse_args()
 crawler_id = args.id
+tld = "angel.co"
 
 title_xpath = "/html/body/div[1]/div[2]/div/div[1]/h1"
 location_xpath = "/html/body/div[1]/div[2]/div/div[1]/div[1]"
