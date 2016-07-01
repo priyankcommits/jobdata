@@ -20,6 +20,7 @@ class JobInfo(models.Model):
     job_title = models.CharField(max_length=200)
     path_gcs = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return u"%s" % self.crawler_agent_id

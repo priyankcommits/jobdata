@@ -55,36 +55,43 @@ def write_to_storage(crawler_id, tld, job_page_url, job_title, job_html_b64):
 
 
 def strip_data(xpath_list, html):
-    import ipdb;ipdb.set_trace();
     data_list = []
     try:
         for xpath in xpath_list:
             xpath = xpath.encode('utf-8')
-            tree = etree.HTML(html)
-            result = tree.xpath(xpath)
             if 'text()' in xpath:
+                tree = etree.HTML(html.encode('utf-8'))
+                result = tree.xpath(xpath)
                 if result:
-                    stripped_text = strip_tags(result)
+                    string_text = ''.join(e for e in result)
+                    stripped_text = string_text.encode('ascii', 'ignore').encode('utf-8')
+                    #stripped_text = strip_tags(string_text)
+                    #stripped_text_coded = stripped_text.encode('utf-8')
                     stripped_text = stripped_text.replace('\n', '')
                     stripped_text = stripped_text.replace('\t', '')
+                    stripped_text = stripped_text.replace('\r', '')
+                    stripped_text = stripped_text.replace('\\x', '')
                 else:
-                    if xpath_list[0] or xpath[3]:
+                    if xpath == xpath_list[0].encode('utf-8') or xpath == xpath_list[3].encode('utf-8'):
                         return 0
                     else:
                         stripped_text = ''
                 data_list.append(stripped_text)
             else:
+                tree = etree.HTML(html)
+                result = tree.xpath(xpath)
                 if result:
                     stripped_text = strip_tags(etree.tostring(result[0]))
                     stripped_text = stripped_text.replace('\n', '')
                     stripped_text = stripped_text.replace('\t', '')
+                    stripped_text = stripped_text.replace('\r', '')
+                    stripped_text = stripped_text.replace('\\x', '')
                 else:
-                    if xpath_list[0] or xpath[3]:
+                    if xpath == xpath_list[0].encode('utf-8') or xpath == xpath_list[3].encode('utf-8'):
                         return 0
                     else:
                         stripped_text = ''
                 data_list.append(stripped_text)
-
 
         return data_list
     except:
@@ -97,8 +104,9 @@ def page_get_html(page):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text)
             title = soup.find('title').getText()
+            print response.url
 
-        return {'text': response.text, 'title': title}
+        return {'url': response.url, 'text': response.text, 'title': title}
     except:
         return 0
 

@@ -10,11 +10,10 @@ crawler_id = args.id
 keys = ['software', 'php', 'mysql', 'java', 'bigdata']
 tld = 'gladwinanalytics.com'
 url = 'http://www.gladwinanalytics.com/jobs?q={0}&p={1}'
-title_xpath = '/html/body/div[5]/div[1]/div/div/div[1]/div[2]/div/div[2]/h1'
-location_xpath = '/html/body/div[5]/div[1]/div/div/div[1]/div[2]/div/div[2]/h4/span'
-nature_xpath = '/html/body/div[5]/div[1]/div/div/div[1]/div[2]/div/div[2]/p[3]/span'
-desc_xpath = '/html/body/div[5]/div[1]/div/div/div[1]/div[3]/div/div[1]'
-
+title_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/h1//text()'
+location_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/h4/span/text()'
+nature_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/p[3]//text()'
+desc_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[3]/div//text()'
 
 class GladWinScript(BaseCrawler):
 
@@ -32,7 +31,7 @@ class GladWinScript(BaseCrawler):
                         page_new = page
                         print page_new
                         if page_new and page_new is not 'None':
-                            page_trimmed = page_new[:page_new.rfind("?"):]
+                            page_trimmed = page_new[:-1]
                             print page_trimmed
                             status = self.post_page(
                                     page_trimmed, page_new, crawler_id,

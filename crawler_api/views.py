@@ -2,25 +2,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 
-from jobdetails.models import CrawlerAgent, JobInfo, JobData
+from jobdetails.models import JobInfo, JobData
 from .utils import write_to_storage, strip_data, tld_check, page_get_html, convert_to_b64
-
-
-@csrf_exempt
-def crawler_agent_check(request):
-    if request.method == 'POST':
-        crawler_id = request.POST.get("crawler_id", 1)
-        job_page_url = request.POST.get("job_page_url", "")
-        try:
-            job = JobInfo.objects.filter(crawler_agent_id=crawler_id, job_page_url=job_page_url)
-        except Exception as e:
-            return HttpResponse(str(e))
-        if job:
-            return HttpResponse("False")
-        else:
-            return HttpResponse("True")
-    else:
-        return HttpResponse("<p>Are you posting data?</p>")
 
 
 @csrf_exempt
@@ -43,12 +26,28 @@ def crawler_agent_post(request):
         if job:
             return HttpResponse("Page previously crawled")
         else:
-            check = tld_check(tld.encode('utf-8'), page_url.encode('utf-8'))
-            if check == "False":
-                return HttpResponse("Page not in TLD Domain")
+            response = page_get_html(page_url)
+            if response is 0:
+                job_false_pagehit = JobInfo.objects.create(
+                        crawler_agent_id=int(crawler_id.encode('utf-8')),
+                        job_page_url=str(page_url.encode('utf-8')),
+                        job_title='Domain could not be hit',
+                        path_gcs='',
+                        status=False
+                        )
+                return HttpResponse("Domain could not be hit")
             else:
-                response = page_get_html(page_url)
-                if response is not 0:
+                check = tld_check(tld.encode('utf-8'), response['url'].encode('utf-8'))
+                if check == "False":
+                    job_false_tld = JobInfo.objects.create(
+                            crawler_agent_id=int(crawler_id.encode('utf-8')),
+                            job_page_url=str(page_url.encode('utf-8')),
+                            job_title='TLD Failed',
+                            path_gcs='',
+                            status=False
+                            )
+                    return HttpResponse("Page not in TLD Domain")
+                else:
                     title = str(response['title']).encode('utf-8')
                     job_html_b64 = convert_to_b64(response['text'])
                     params = {
@@ -66,7 +65,8 @@ def crawler_agent_post(request):
                                 crawler_agent_id=int(crawler_id.encode('utf-8')),
                                 job_page_url=str(page_url.encode('utf-8')),
                                 job_title=str(title.encode('utf-8')),
-                                path_gcs=str(status['path'])
+                                path_gcs=str(status['path']),
+                                status=True
                                 )
                             job.save()
                             job = JobInfo.objects.get(id=int(job.id))
@@ -79,6 +79,14 @@ def crawler_agent_post(request):
                                 )
                         return JsonResponse({'status': 'Wrote to Gcloud & Extarcted Data', 'job': job.id})
                     else:
+                        job_false_data = JobInfo.objects.create(
+                                crawler_agent_id=int(crawler_id.encode('utf-8')),
+                                job_page_url=str(page_url.encode('utf-8')),
+                                job_title='Data Extraction Failed',
+                                path_gcs='',
+                                status=False
+                                )
+
                         return JsonResponse({'status': 'Could not write to Gcloud/ Extract Data', 'job': "null"})
     else:
         return HttpResponse("<p>Are you sure you are posting data?</p>")

@@ -13,8 +13,8 @@ tld = 'indeed.com'
 keys_locations = [(k, l) for k in keys for l in locations]
 url = 'http://www.indeed.com/jobs?q={0}&l={1}&start={2}'
 title_xpath = '//*[@id="job_header"]/b/font//text()'
-location_xpath = '//*[@id="job_summary"]/p[1]/b[2]//text()'
-nature_xpath = '//*[@id="job_summary"]/p[1]/b[3]//text()'
+location_xpath = '//*[@id="job_header"]/span[2]//text()'
+nature_xpath = '//*[@id="job_header"]//text()[2]'
 desc_xpath = '//*[@id="job-content"]//text()'
 
 
@@ -31,21 +31,16 @@ class IndeedScript(BaseCrawler):
                     for link in links:
                         page = str(link.a.get('href'))
                         page_new = 'https://www.indeed.com{0}'.format(page)
-                        try:
-                            response = requests.get(page_new)
-                        except:
-                            pass
                         print page_new
-                        if response.status_code == 200:
-                            if response.url and response.url is not 'None':
-                                page_trimmed = response.url
-                                print page_trimmed
-                                status = self.post_page(
-                                        page_trimmed, response.url, crawler_id,
-                                        tld, title_xpath, location_xpath,
-                                        nature_xpath, desc_xpath,
-                                        )
-                                print status
+                        if page_new and page_new is not 'None':
+                            page_trimmed = page_new
+                            print page_trimmed
+                            status = self.post_page(
+                                    page_trimmed, page_new, crawler_id,
+                                    tld, title_xpath, location_xpath,
+                                    nature_xpath, desc_xpath,
+                                    )
+                            print status
 
 if __name__ == "__main__":
     script = IndeedScript()

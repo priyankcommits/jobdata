@@ -7,9 +7,6 @@ parser = argparse.ArgumentParser(description='Arguments for agenlistscript.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
 args = parser.parse_args()
 crawler_id = args.id
-key = 'django'
-locations = ['Hyderabad', 'Bangalore', 'Chennai', 'Delhi', 'Mumbai']
-tld = 'angel.co'
 
 title_xpath = "/html/body/div[1]/div[2]/div/div[1]/h1"
 location_xpath = "/html/body/div[1]/div[2]/div/div[1]/div[1]"
@@ -34,6 +31,7 @@ class AngelListScript(BaseCrawler):
                 )
                 for link in links:
                     href = link.findAll('a')[0].get('href')
+                    print href
                     status = self.post_page(
                         href, href, crawler_id, tld,
                         title_xpath, location_xpath, nature_xpath, desc_xpath

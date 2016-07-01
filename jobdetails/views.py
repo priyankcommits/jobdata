@@ -13,7 +13,7 @@ def job_details_agents(request):
     if request.method == 'GET':
         crawler_agents = CrawlerAgent.objects.all()
         for crawler in crawler_agents:
-            crawler.votes = JobInfo.objects.filter(crawler_agent_id=crawler.id).count()
+            crawler.votes = JobInfo.objects.filter(crawler_agent_id=crawler.id, status=True).count()
         return render(request, 'jobdetails/agents.html', {'crawlers': crawler_agents, })
     else:
         return HttpResponse("<p>There is no posting here :)</p>")
@@ -23,7 +23,7 @@ def job_details_dates(request, crawler):
     if request.method == 'GET':
         crawler_id = crawler
         crawler = CrawlerAgent.objects.get(id=int(crawler_id.encode('utf-8')))
-        jobs = JobInfo.objects.filter(crawler_agent_id=int(crawler.id)).order_by('-created_at')
+        jobs = JobInfo.objects.filter(crawler_agent_id=int(crawler.id), status=True).order_by('-created_at')
         dates_dict = {}
         for job in jobs:
             if str(job.created_at.date()) in dates_dict:
@@ -75,7 +75,7 @@ def job_details_files(request, crawler, date):
         crawler = CrawlerAgent.objects.get(id=int(crawler_id.encode('utf-8')))
         date = date
         date_field = datetime.strptime(str(date), '%Y-%m-%d')
-        files = JobInfo.objects.filter(crawler_agent_id=int(crawler.id), created_at__startswith=str(date_field.date())).order_by('-created_at')
+        files = JobInfo.objects.filter(crawler_agent_id=int(crawler.id), status=True, created_at__startswith=str(date_field.date())).order_by('-created_at')
 
         return render(request, 'jobdetails/files.html', {'files': files, 'date': date, 'crawler_id_date': crawler})
 
