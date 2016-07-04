@@ -19,8 +19,11 @@ class AngelListScript(BaseCrawler):
 
     def main(self):
         slugs = [
-            'stripe', 'tinder', 'vsco', 'hinge' 'gustohq' 'brit-co-2', 'medium', 'uber',
-            'ciphergraph-networks'
+            'stripe', 'tinder', 'vsco', 'hinge' 'gustohq' 'brit-co-2',
+            'medium', 'uber', 'ciphergraph-networks', 'shyp',
+            'asana', 'warby-parker', 'yelp', 'coinbase', 'wattpad',
+            'crunchbase', 'everlane', 'chartbeat', 'patreon',
+            'zumper', 'tilt', 'ifttt', 'ubiome',
         ]
         for slug in slugs:
             url = "https://angel.co/{0}/jobs".format(slug)

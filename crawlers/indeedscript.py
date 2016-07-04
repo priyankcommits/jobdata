@@ -14,7 +14,7 @@ keys_locations = [(k, l) for k in keys for l in locations]
 url = 'http://www.indeed.com/jobs?q={0}&l={1}&start={2}'
 title_xpath = '//*[@id="job_header"]/b/font//text()'
 location_xpath = '//*[@id="job_header"]/span[2]//text()'
-nature_xpath = '//*[@id="job_header"]//text()[2]'
+nature_xpath = '//*[@id="job_header"]//text()'
 desc_xpath = '//*[@id="job-content"]//text()'
 
 
