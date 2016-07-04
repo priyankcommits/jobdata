@@ -128,3 +128,12 @@ iframe{
 .wordwrap{
   word-wrap: break-word;
 }
+table{
+  border-collapse: collapse;
+}
+table, th, td{
+  border: 1px dashed grey;
+}
+th, td{
+  padding: 5px;
+}
