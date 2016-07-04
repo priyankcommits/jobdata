@@ -77,7 +77,7 @@ def job_details_files(request, crawler, date):
         date_field = datetime.strptime(str(date), '%Y-%m-%d')
         files = JobInfo.objects.filter(crawler_agent_id=int(crawler.id), status=True, created_at__startswith=str(date_field.date())).order_by('-created_at')
 
-        return render(request, 'jobdetails/files.html', {'files': files, 'date': date, 'crawler_id_date': crawler})
+        return render(request, 'jobdetails/files_table.html', {'files': files, 'date': date, 'crawler_id_date': crawler})
 
 
 def job_details_view_json(request, crawler, date, file):

@@ -1,0 +1,33 @@
+{% extends 'jobdetails/base.html' %}
+{% block content %}
+<div class="boxlg col-lg-12 center-block text-center">
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Created On</th>
+      <th>View Page Link</th>
+      <th>View GCS JSON</th>
+      <th>View Extracted Data</th>
+    </tr>
+    {% for file in files %}
+    <tr>
+      <td>  <a style="float:left;" href="{% url 'jobdetails:job_details_view_html' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="custom">
+    <span class="center-block text-center fa fa-file fa-1x bluetext"></span> </a>
+</td>
+      <td>  <h5 class="text-left blacktext" style="display:inline-block;">
+    <a href="{% url 'jobdetails:job_details_view_html' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="custom">
+      {{file.job_title}}</a></h5>
+</td>
+    <td> {{file.created_at}} </td>
+    <td> <a href="{{file.job_page_url}}" target="_blank" class="black">
+    Open in New page</a></td>
+    <td> <a href="{% url 'jobdetails:job_details_view_json' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="black">
+      View GCS File</a></td>
+    <td> <a href="{% url 'jobdetails:job_details_view_data' job=file.id crawler=crawler_id_date.id date=date %}" class="black">
+    View Extracted Data</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>
+  {% endblock content %}
