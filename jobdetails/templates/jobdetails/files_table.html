@@ -6,9 +6,9 @@
       <th><span class="redtext fa fa-file fa-1x"></span></th>
       <th><span class="redtext">Name</span></th>
       <th><span class="redtext">Created On</span></th>
-      <th><span class="redtext">View Page Link</span></th>
-      <th><span class="redtext">View GCS JSON</span></th>
-      <th><span class="redtext">View Extracted Data</span></th>
+      <th><span class="redtext">Page Link</span></th>
+      <th><span class="redtext">GCS JSON</span></th>
+      <th><span class="redtext">Extracted Data</span></th>
     </tr>
     {% for file in files %}
     <tr>
@@ -21,11 +21,11 @@
 </td>
 <td><h6> {{file.created_at}}</h6> </td>
 <td> <h6><a href="{{file.job_page_url}}" target="_blank" class="custom">
-      Open in New page</a></h6></td>
+      Open</a></h6></td>
 <td> <h6><a href="{% url 'jobdetails:job_details_view_json' file=file.path_gcs crawler=crawler_id_date.id date=date %}" class="custom">
-      View GCS File</a></h6></td>
+      View</a></h6></td>
 <td><h6> <a href="{% url 'jobdetails:job_details_view_data' job=file.id crawler=crawler_id_date.id date=date %}" class="custom">
-      View Extracted Data</a></h6></td>
+      View</a></h6></td>
     </tr>
     {% endfor %}
   </table>

@@ -23,7 +23,8 @@ class AngelListScript(BaseCrawler):
             'medium', 'uber', 'ciphergraph-networks', 'shyp',
             'asana', 'warby-parker', 'yelp', 'coinbase', 'wattpad',
             'crunchbase', 'everlane', 'chartbeat', 'patreon',
-            'zumper', 'tilt', 'ifttt', 'ubiome',
+            'zumper', 'tilt', 'ifttt', 'ubiome', 'googleventures',
+            'sequoia-capital',
         ]
         for slug in slugs:
             url = "https://angel.co/{0}/jobs".format(slug)

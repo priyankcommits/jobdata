@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Arguments for indeed.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
 args = parser.parse_args()
 crawler_id = args.id
-keys = ['django', 'rails', 'angular', 'php', 'mysql']
+keys = ['django', 'rails', 'angular', 'php', 'mysql', 'java', 'bigdata',]
 locations = ['San_Diego%2C+CA', 'San+Francisco%2C+CA', 'New+York%2C+NY', 'Austin%2C+TX', 'Chicago%2C+IL', 'Philadelphia%2C+PA', 'Boston%2C+MA', 'Seattle%2C+WA', 'Dallas%2C+TX', 'Portland%2C+OR']
 tld = 'indeed.com'
 keys_locations = [(k, l) for k in keys for l in locations]

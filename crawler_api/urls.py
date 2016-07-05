@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from crawler_api.views import crawler_agent_post
+from crawler_api.views import api_crawler_agent_post
 
 urlpatterns = [
-    url(r'^crawler_agent_post/$', crawler_agent_post, name='crawler_agent_post'),
+    url(r'^api_crawler_agent_post/$', api_crawler_agent_post, name='api_crawler_agent_post'),
 ]

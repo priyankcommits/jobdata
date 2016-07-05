@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Arguments for dicescript.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
 args = parser.parse_args()
 crawler_id = args.id
-keys = ['software', 'php', 'mysql', 'java', 'bigdata']
+keys = ['software', 'php', 'mysql', 'java', 'bigdata', 'django', 'rails', 'angular',]
 tld = 'gladwinanalytics.com'
 url = 'http://www.gladwinanalytics.com/jobs?q={0}&p={1}'
 title_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/h1//text()'
@@ -15,10 +15,10 @@ location_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/h4/s
 nature_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[2]/div/div[2]/p[3]//text()'
 desc_xpath = '/html/body/div[4]/div[1]/div/div/div[1]/div[3]/div//text()'
 
+
 class GladWinScript(BaseCrawler):
 
-
-   def main(self):
+    def main(self):
         for key in keys:
             for page_no in range(1, 25):
                 page_url = url.format(key, str(page_no))

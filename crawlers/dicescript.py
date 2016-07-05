@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Arguments for dicescript.py')
 parser.add_argument('-i', '--id', help='Input crawler agent id', required=True)
 args = parser.parse_args()
 crawler_id = args.id
-keys = ['django', 'rails', 'angular', 'php', 'mysql']
+keys = ['django', 'rails', 'angular', 'php', 'mysql', 'java', 'bigdata',]
 locations = ['San_Francisco%2C_CA', 'New_York%2C_NY', 'San_Diego%2C_CA', 'Austin%2C_TX', 'Chicago%2C_IL', 'Philadelphia%2C_PA', 'Boston%2C_MA', 'Seattle%2C_WA', 'Dallas%2C_TX', 'Portland%2C_OR']
 tld = 'dice.com'
 keys_locations = [(k, l) for k in keys for l in locations]

@@ -7,7 +7,7 @@ from .utils import write_to_storage, strip_data, tld_check, page_get_html, conve
 
 
 @csrf_exempt
-def crawler_agent_post(request):
+def api_crawler_agent_post(request):
     if request.method == 'POST':
         crawler_id = request.POST.get("crawler_id", 1)
         tld = request.POST.get("tld", "")
